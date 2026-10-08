@@ -14,5 +14,15 @@ public class PersonCard {
         System.out.println("Längd: " + height);
         System.out.println("Betyg: " + grade);
         System.out.println("Gillar Java: " + likesJava);
+
+        int ageNextYear = age + 1;
+
+        System.out.println("Nästa år är " + firstName + " " + ageNextYear + "år");
+
+        String carBrand = "Volvo";
+        int modelYear = 2022;
+        double price = 185000;
+        boolean isElectric = true;
+
     }
 }
