@@ -64,5 +64,44 @@ public class Main {
 
         tärning.extraThrows(); //Bonus
 
-    }
+        //6.
+        Hälsarobot robot = new Hälsarobot();
+
+        System.out.println(robot.nameRobot("Daniel"));
+        System.out.println(robot.nameRobot("Martin"));
+        System.out.println(robot.nameRobot("Simon"));
+        System.out.println(robot.nameRobot("Simon") + " Min favorit nummer är " + robot.favoriteNumber(12));
+
+        //7.
+
+        Godisräknaren candy = new Godisräknaren();
+        System.out.println("Priset på godiset är: " + candy.godisPris(10, 3) + " Kr!");
+        System.out.println("Priset på godiset med fastpris på 2 kr: " + candy.fastPris(10) + " Kr!");
+
+        //8.
+        Skatten kista = new Skatten();
+        int summa = kista.raknaGuld(kista.guld);
+
+        System.out.println("Totalt guld är: " + summa);
+        System.out.println("Största guldet är: " + kista.hittaStörst(kista.guld));
+
+        //9. 
+
+        Superkraft currPower = Superkraft.VIND;
+        currPower.visaKraft();
+
+        for(Superkraft w : Superkraft.values()){
+            System.out.println(w);
+        }
+
+        //10. 
+        Litetspel spel = new Litetspel();
+
+        spel.setPoints(15);
+        System.out.println("Player points: " + spel.getPoints());
+
+        System.out.println("Total points in array: " + spel.totalPoints(spel.poangArray));
+
+        System.out.println("Highest points: " + spel.highestPoints(spel.poangArray));
+    }   
 }
