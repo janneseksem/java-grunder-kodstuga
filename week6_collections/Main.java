@@ -11,6 +11,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.List;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
@@ -71,18 +73,88 @@ public class Main {
         monster.add(new Robot("Bot"));
         monster.add(new Slime("Slimey"));
 
+        Collections.shuffle(monster);
+
+        Queue<MonsterSpel> queue = new LinkedList<>(monster);
+        Map<String, Integer> topplista = new HashMap <>();
+
         //6.1
-        System.err.println("Mata in vad du vill göra, Meny: ");
-        System.err.println("1. Visa alla monster");
-        System.err.println("2. Starta en match");
-        System.err.println("3. Visa topplistan");
-        System.err.println("4. Visa monstertyper");
-        System.err.println("5. Avsluta");
+        boolean gameStatus = true;
         Scanner scanner = new Scanner(System.in);
         
-        for (MonsterSpel w : monster){
-            System.out.println(w.getnamn() + " - Current HP: " + w.getHP());
+        while(gameStatus){
+            System.err.println("Mata in vad du vill göra, Meny: ");
+            System.err.println("1. Visa alla monster");
+            System.err.println("2. Starta en match");
+            System.err.println("3. Visa topplistan");
+            System.err.println("4. Avsluta");
+            
+
+            switch (scanner.nextInt()) {
+            case 1:
+                for (MonsterSpel w : monster){
+                    System.out.println(w.getnamn() + " - Current HP: " + w.getHP());
+            }
+            break;
+            case 2:
+                if (queue.size() < 2){
+                    System.out.println("Det finns inte två monster att fighta mot varandra");
+                    
+                    
+                }
+                MonsterSpel monster1 = queue.poll();
+                MonsterSpel monster2 = queue.poll();
+
+                monster1.setHP(100);
+                monster2.setHP(100);
+
+                System.out.println(monster1.getnamn() + " VS " + monster2.getnamn());
+
+                Queue<MonsterSpel> turorning = new LinkedList<>();
+                turorning.offer(monster2);
+                turorning.offer(monster1);
+
+                while(monster2.getHP() > 0 && monster1.getHP() > 0){
+
+                    MonsterSpel anfallare = turorning.poll();
+                    MonsterSpel försvarare = turorning.peek();
+
+                    int skada = anfallare.attack();
+                    försvarare.setHP(försvarare.getHP() - skada);
+
+                    System.out.println(anfallare.getnamn() + " gör " + skada + " mot monster " + försvarare.getnamn() + " och har " + försvarare.getHP() + " HP kvar");
+                    turorning.offer(anfallare);
+                }
+                if(monster2.getHP() > 0){
+                    String namn = monster2.getnamn();
+                    topplista.put(namn, topplista.getOrDefault(namn, 0) + 2); //vinnaren får 2 poäng
+                    System.out.println("Vinnaren är: " + namn);   
+                }
+                else{
+                    String namn = monster1.getnamn();
+                    topplista.put(namn, topplista.getOrDefault(namn, 0) + 2);
+                    System.out.println("Vinnaren är: " + namn);
+                }
+                //ställer sist i kön
+                queue.offer(monster1);
+                queue.offer(monster2);
+                break;
+            case 3:
+                for(Map.Entry<String, Integer> entry : topplista.entrySet()){
+                    System.out.println(entry.getKey() + " " + entry.getValue() + " pts");
+                }
+                break;
+            case 4:
+                gameStatus = false;
+                break;
+        
+            default:
+                System.out.println("Välj alternativ mellan 1 - 4.");
+                break;
         }
+        }
+        
+        
 
 
 
